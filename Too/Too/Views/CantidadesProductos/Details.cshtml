@@ -1,0 +1,34 @@
+﻿@model Too.Models.CANTIDADPRODUCTO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CANTIDADPRODUCTO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PRODUCTO.NOMBREPROD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRODUCTO.NOMBREPROD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STOCKPROD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STOCKPROD)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDCANTIDADPROD }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Too.Models.TARIFAENVIO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.REGION.NOMBREREGION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRETARIFA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VALORTARIFA)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.REGION.NOMBREREGION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRETARIFA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VALORTARIFA)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IDTARIFA }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IDTARIFA }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IDTARIFA })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,80 @@
+﻿@model Too.Models.CARRITOCOMPRA
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CARRITOCOMPRA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TARIFAENVIO.NOMBRETARIFA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TARIFAENVIO.NOMBRETARIFA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USUARIO.USERNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USUARIO.USERNAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ENVIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ENVIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUBTOTAL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUBTOTAL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LUGARENTREGA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LUGARENTREGA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.METODOPAGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.METODOPAGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TOTAL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TOTAL)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,42 @@
+﻿@model Too.Models.TARIFAENVIO
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TARIFAENVIO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.REGION.NOMBREREGION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REGION.NOMBREREGION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOMBRETARIFA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRETARIFA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VALORTARIFA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VALORTARIFA)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDTARIFA }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

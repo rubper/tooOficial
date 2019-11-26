@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Too.Models.SUBDEPARTAMENTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DEPARTAMENTO.NOMBRECATEGORIA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMSUBCATEGORIA)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DEPARTAMENTO.NOMBRECATEGORIA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMSUBCATEGORIA)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IDSUBCATEGORIA }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IDSUBCATEGORIA }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IDSUBCATEGORIA })
+        </td>
+    </tr>
+}
+
+</table>

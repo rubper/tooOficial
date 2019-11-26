@@ -1,0 +1,74 @@
+﻿@model Too.Models.CARRITOCOMPRA
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CARRITOCOMPRA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TARIFAENVIO.NOMBRETARIFA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TARIFAENVIO.NOMBRETARIFA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USUARIO.USERNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USUARIO.USERNAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ENVIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ENVIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUBTOTAL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUBTOTAL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LUGARENTREGA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LUGARENTREGA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.METODOPAGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.METODOPAGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TOTAL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TOTAL)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDCARRITO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

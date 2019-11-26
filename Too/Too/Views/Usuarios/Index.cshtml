@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Too.Models.USUARIO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.USERNAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRIMERNOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRIMERAPELLIDO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DIRECCION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DIRECCION2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CIUDAD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PROVINCIA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TELEFONO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CELULAR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAIS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.USERNAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PRIMERNOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PRIMERAPELLIDO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DIRECCION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DIRECCION2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CIUDAD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PROVINCIA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TELEFONO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CELULAR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PAIS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EMAIL)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IDUSUARIO }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IDUSUARIO }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IDUSUARIO })
+        </td>
+    </tr>
+}
+
+</table>
