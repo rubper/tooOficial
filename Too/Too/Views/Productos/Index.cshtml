@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Too.Models.PRODUCTO>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Producto";
 }
 
-<h2>Index</h2>
+<h2>Producto</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear un nuevo producto", "Create")
 </p>
 <table class="table">
     <tr>
@@ -47,7 +47,7 @@
             @Html.DisplayFor(modelItem => item.PRECIOUNIT)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IMAGENPROD)
+            <img width="100" height="150" src="@Url.Action("obtenerImagen","Productos",new { id=item.IDPRODUCTO})" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DISPONIBILIDAD)

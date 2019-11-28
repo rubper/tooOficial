@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Too.Models;
 
@@ -48,15 +53,31 @@ namespace Too.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDPRODUCTO,IDSUBCATEGORIA,NOMBREPROD,DESCPROD,PRECIOUNIT,IMAGENPROD,DISPONIBILIDAD")] PRODUCTO pRODUCTO)
+        public ActionResult Create(PRODUCTO pRODUCTO, HttpPostedFileBase imageload)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.PRODUCTO.Add(pRODUCTO);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    if (imageload != null && imageload.ContentLength > 0)
+                    {
+                        byte[] imagenData = null;
+                        using (var imagen = new BinaryReader(imageload.InputStream))
+                        {
+                            imagenData = imagen.ReadBytes(imageload.ContentLength);
+                        }
+                        pRODUCTO.IMAGENPROD = imagenData;
+                    }
 
+                    db.PRODUCTO.Add(pRODUCTO);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (RetryLimitExceededException)
+            {
+                ModelState.AddModelError("", "");
+            }
             ViewBag.IDSUBCATEGORIA = new SelectList(db.SUBDEPARTAMENTO, "IDSUBCATEGORIA", "NOMSUBCATEGORIA", pRODUCTO.IDSUBCATEGORIA);
             return View(pRODUCTO);
         }
@@ -127,6 +148,15 @@ namespace Too.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //Obtener imagenes de los productos
+        public ActionResult obtenerImagen(int id)
+        {
+            PRODUCTO produ = db.PRODUCTO.Find(id);
+            byte[] byteImagen = produ.IMAGENPROD;
+            MemoryStream memoryStream = new MemoryStream(byteImagen);
+            return File(memoryStream, "image/jpg");
         }
     }
 }
