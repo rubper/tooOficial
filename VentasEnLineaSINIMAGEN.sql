@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     26/11/2019 12:23:59                          */
+/* Created on:     28/11/2019 0:59:05                           */
 /*==============================================================*/
 
 
@@ -385,13 +385,13 @@ go
 /*==============================================================*/
 create table CARRITOCOMPRA (
    IDCARRITO            numeric              identity,
-   IDTARIFAENVIO        numeric              not null,
-   IDUSUARIO            numeric              not null,
-   ENVIO                bit                  not null,
-   SUBTOTAL             decimal(9,2)         not null,
-   LUGARENTREGA         varchar(200)         not null,
-   METODOPAGO           varchar(100)         not null,
-   TOTAL                decimal(9,2)         not null,
+   IDTARIFAENVIO        numeric              null,
+   IDUSUARIO            numeric              null,
+   ENVIO                bit                  null,
+   SUBTOTAL             decimal(9,2)         null,
+   LUGARENTREGA         varchar(200)         null,
+   METODOPAGO           varchar(100)         null,
+   TOTAL                decimal(9,2)         null,
    constraint PK_CARRITOCOMPRA primary key nonclustered (IDCARRITO)
 )
 go
