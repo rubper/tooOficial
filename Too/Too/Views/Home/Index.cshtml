@@ -1,25 +1,52 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<Too.Models.PRODUCTO>
+@{
+    ViewBag.Title = "Inicio";
 }
-
-    <div class="jumbotron">
-        <h2>Cruds relacionados al comprador</h2>
-        <!--Url Action obtiene un url relativo al servidor, en el controlador CarritosCompras, acción de vista Index-->
-        <p><a href="@Url.Action("Index", "CarritosCompras")">Ir a Carritos de compras</a></p>
-        <!--sí, comprador podrá ver una lista de productos, pero será especial para que pueda guardar y mandar al carrito el conjunto de índices-->
-        <!--sin embargo, la administración de los productos corresponde a la administración-->
-        <h2>Cruds relacionados con la administración</h2>
-        <p><a href="@Url.Action("Index", "Productos")">Ir a Productos</a></p>
-        <p><a href="@Url.Action("Index", "CantidadesProductos")">Ir a Inventario de productos</a></p>
-        <p><a href="@Url.Action("Index", "Departamentos")">Ir a Departamentos</a></p>
-        <p><a href="@Url.Action("Index", "Subdepartamentos")">Ir a Subdepartamentos</a></p>
-        <p><a href="@Url.Action("Index", "Impuestos")">Ir a Impuestos</a></p>
-        <p><a href="@Url.Action("Index", "Tags")">Ir a Tags</a></p>
-        <p><a href="@Url.Action("Index", "Regiones")">Ir a Regiones</a></p>
-        <p><a href="@Url.Action("Index", "TarifasEnvio")">Ir a Tarifas de Envío</a></p>
-        <p><a href="@Url.Action("Index", "Usuarios")">Ir a Usuarios</a></p>
-    </div>
-
+@ViewBag.IdCarritoCompra
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SUBDEPARTAMENTO.NOMSUBCATEGORIA)
+            </td>
+            <td>
+                <a href="@Url.Action("Producto", "Detalle", new { id = item.IDPRODUCTO })">
+                    @Html.DisplayFor(modelItem => item.NOMBREPROD)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCPROD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRECIOUNIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IMAGENPROD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DISPONIBILIDAD)
+            </td>
+        </tr>
+    }
+</table>
+<div class="jumbotron">
+    <h2>Cruds relacionados al comprador</h2>
+    <!--Url Action obtiene un url relativo al servidor, en el controlador CarritosCompras, acción de vista Index-->
+    <p><a href="@Url.Action("Index", "CarritosCompras")">Ir a Carritos de compras</a></p>
+    <!--sí, comprador podrá ver una lista de productos, pero será especial para que pueda guardar y mandar al carrito el conjunto de índices-->
+    <!--sin embargo, la administración de los productos corresponde a la administración-->
+    <h2>Cruds relacionados con la administración</h2>
+    <p><a href="@Url.Action("Index", "Productos")">Ir a Productos</a></p>
+    <p><a href="@Url.Action("Index", "CantidadesProductos")">Ir a Inventario de productos</a></p>
+    <p><a href="@Url.Action("Index", "Departamentos")">Ir a Departamentos</a></p>
+    <p><a href="@Url.Action("Index", "Subdepartamentos")">Ir a Subdepartamentos</a></p>
+    <p><a href="@Url.Action("Index", "Impuestos")">Ir a Impuestos</a></p>
+    <p><a href="@Url.Action("Index", "Tags")">Ir a Tags</a></p>
+    <p><a href="@Url.Action("Index", "Regiones")">Ir a Regiones</a></p>
+    <p><a href="@Url.Action("Index", "TarifasEnvio")">Ir a Tarifas de Envío</a></p>
+    <p><a href="@Url.Action("Index", "Usuarios")">Ir a Usuarios</a></p>
+</div>
 <div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>

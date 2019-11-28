@@ -36,7 +36,6 @@ namespace Too.Models
         public decimal PRECIOUNIT { get; set; }
 
         [Column(TypeName = "image")]
-        [Required]
         public byte[] IMAGENPROD { get; set; }
 
         public bool DISPONIBILIDAD { get; set; }
