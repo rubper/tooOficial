@@ -942,7 +942,7 @@ create table PRODUCTO (
    NOMBREPROD           varchar(200)         not null,
    DESCPROD             varchar(500)         not null,
    PRECIOUNIT           decimal(7,2)         not null,
-   IMAGENPROD           image                not null,
+   IMAGENPROD           image                null,
    DISPONIBILIDAD       bit                  not null,
    constraint PK_PRODUCTO primary key nonclustered (IDPRODUCTO)
 )
