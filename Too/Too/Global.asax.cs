@@ -22,35 +22,32 @@ namespace Too
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        // db.CARRITOCOMPRA.Where(cc => cc.IDCARRITO == id).ToList(); select IDCARRITO from CARRITOCOMPRA where IDCARRITO = id; (obtiene el muy objeto)
         public void Session_Start()
         {
+            //inicializa la cookie
             carrito = new HttpCookie("CarritoCompra");
-            carro = new CARRITOCOMPRA();
-            db.CARRITOCOMPRA.Add(carro);
+            //añade a la base un registro vacío de carrito (genera id en base)
+            db.CARRITOCOMPRA.Add(new CARRITOCOMPRA());
             db.SaveChanges();
-            decimal idultimo = db.CARRITOCOMPRA.Max(p => p.IDCARRITO);
-            List<CARRITOCOMPRA> lsCarro = db.CARRITOCOMPRA.Where(cc => cc.IDCARRITO == idultimo).ToList();
+            //obtiene el id del ultimo carrito registrado (se guarda en id)
+            id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO);
+            List<CARRITOCOMPRA> lsCarro = db.CARRITOCOMPRA.Where(cc => cc.IDCARRITO == id).ToList();
+            //se obtiene en objeto
             carro = lsCarro.Last();
-            id = carro.IDCARRITO;
-            //se le añade el valor [id] a la cookie carrito
+            //se llena cookie con la información
             carrito.Value = id.ToString();
-            //en este punto la cookie se llama CarritoCompra, y tiene un valor id recien creado
             carrito.Expires = DateTime.Now.AddYears(1);
-            //acá configuramos al cookie para que expire en un año
-        }
-        public void Application_BeginRequest()
-        {
-            HttpCookie myCookie = Request.Cookies["CarritoCompra"];
-            if (Response.Cookies["CarritoCompra"].Value == null)
+            HttpCookie ckRequest = Request.Cookies["CarritoCompra"];
+            if (ckRequest == null)
             {
                 Response.Cookies.Add(carrito);
             }
             else
             {
-                id = decimal.Parse(Response.Cookies["CarritoCompra"].Value.ToString());
-                db.CARRITOCOMPRA.Remove(db.CARRITOCOMPRA.Last());
+                id = decimal.Parse(ckRequest.Value.ToString());
+                db.CARRITOCOMPRA.Remove(carro);
             }
-
         }
     }
 }
