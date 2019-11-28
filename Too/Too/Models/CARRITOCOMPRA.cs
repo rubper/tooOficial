@@ -30,11 +30,9 @@ namespace Too.Models
 
         public decimal SUBTOTAL { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string LUGARENTREGA { get; set; }
 
-        [Required]
         [StringLength(100)]
         public string METODOPAGO { get; set; }
 

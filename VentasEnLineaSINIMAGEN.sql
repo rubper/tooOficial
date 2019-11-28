@@ -1793,16 +1793,6 @@ alter table CANTIDADPRODUCTO
       references PRODUCTO (IDPRODUCTO)
 go
 
-alter table CARRITOCOMPRA
-   add constraint FK_CARRITOC_PUEDE_TEN_TARIFAEN foreign key (IDTARIFAENVIO)
-      references TARIFAENVIO (IDTARIFA)
-go
-
-alter table CARRITOCOMPRA
-   add constraint FK_CARRITOC_RELATIONS_USUARIO foreign key (IDUSUARIO)
-      references USUARIO (IDUSUARIO)
-go
-
 alter table DETALLECARRITO
    add constraint FK_DETALLEC_PROD_CARR_PRODUCTO foreign key (IDPRODUCTO)
       references PRODUCTO (IDPRODUCTO)
