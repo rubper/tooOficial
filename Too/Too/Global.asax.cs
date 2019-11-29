@@ -34,7 +34,7 @@ namespace Too
             //si la cookie de la request es nula, añadir nueva
             if (ckRequest == null)
             {
-                añadirCookieCarrito();
+//                añadirCookieCarrito();
             }
             //sin embargo, si hay un valor de la cookie, y este valor es positivo
             else if (ckRequest.Value != null && int.Parse(ckRequest.Value) > 1)
@@ -64,7 +64,7 @@ namespace Too
                         //eliminar cookie CarritoCompra
                         Response.Cookies.Remove("CarritoCompra");
                         //añadir nueva cookie
-                        añadirCookieCarrito();
+//                        añadirCookieCarrito();
                     }
 
                 }
@@ -75,11 +75,11 @@ namespace Too
             }
             else
             {
-                añadirCookieCarrito();
+//               añadirCookieCarrito();
             }
         }
 
-        public void añadirCookieCarrito()
+ /*       public void añadirCookieCarrito()
         {
             //añade a la base un registro vacío de carrito (genera id en base)
             db.CARRITOCOMPRA.Add(new CARRITOCOMPRA());
@@ -94,5 +94,6 @@ namespace Too
             //se mete la cookie a la respuesta
             Response.Cookies.Add(carrito);
         }
+*/
     }
 }

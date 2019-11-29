@@ -47,8 +47,8 @@ namespace Too.Controllers
             {
                 if (prodAux[j] == null)
                 {
-                    prodAux[j] = nousados.Last();
-                    nousados.Remove(prodAux[j - 1]);
+//                   prodAux[j] = nousados.Last();
+//                    nousados.Remove(prodAux[j - 1]);
                 }
             }
             productos = prodAux.ToList();
