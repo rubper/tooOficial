@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Pagar";
+}
+
+<h2>Pagar</h2>
+
+
+@using (Html.BeginForm("AñadirProducto", "DetallesCarritos", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" name="IDPRODUCTO" value="@ViewBag.PROD.IDPRODUCTO" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" name="IDCARRITO" value="@ViewBag.CARR.IDCARRITO" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="text" name="CANTIDADPROD" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="text" name="PRECIO" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="submit" value="Añadir producto al carrito" class="btn btn-default" />
+        </div>
+    </div>
+}

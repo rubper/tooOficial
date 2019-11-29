@@ -319,6 +319,7 @@
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Detalle\Carrito.cshtml" />
     <Content Include="Views\Detalle\Producto.cshtml" />
+    <Content Include="Views\Detalle\Pagar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

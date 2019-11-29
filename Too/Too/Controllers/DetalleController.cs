@@ -56,6 +56,7 @@ namespace Too.Controllers
         public ActionResult Carrito(int idcarrito)
         {
             CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idcarrito);
+            ViewBag.idCarro = idcarrito;
             return View(carro.DETALLECARRITO);
         }
         public ActionResult Delete(decimal id)
@@ -69,7 +70,7 @@ namespace Too.Controllers
                 //obtiene el id del carrito actual
                 int idcarro = int.Parse(Request.Cookies["CarritoCompra"].Value);
                 //validar producto y carrito
-                if (id == null || idcarro == null)
+                if ( idcarro == null)
                 {
                     return HttpNotFound();
                 }
@@ -83,6 +84,31 @@ namespace Too.Controllers
 
             }
             return RedirectToAction("Carrito");
+        }
+        public ActionResult Pagar(int id)
+        {
+            CARRITOCOMPRA carro = new CARRITOCOMPRA();
+            try
+            {
+                List<PRODUCTO> lsprod = new List<PRODUCTO>();
+                List<DETALLECARRITO> det = db.DETALLECARRITO.Where(m => m.IDCARRITO == id).ToList();
+                carro = db.CARRITOCOMPRA.Find(id);
+                decimal asdf, total = 0;
+                PRODUCTO aux;
+                foreach (DETALLECARRITO hes in det)
+                {
+                    asdf = hes.IDPRODUCTO;
+                    aux = db.PRODUCTO.Find(asdf);
+                    if (aux != null) {
+                        lsprod.Add(aux);
+                        total += aux.PRECIOUNIT * hes.CANTIDADPROD;
+                    }
+
+                }
+                ViewBag.total = total;
+                ViewBag.lsta = lsprod;
+            } catch { }
+            return View(carro);
         }
     }
 }
