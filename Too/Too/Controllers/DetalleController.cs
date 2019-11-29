@@ -32,7 +32,7 @@ namespace Too.Controllers
             //valida objeto carrito
             if(carro == null)
             {
-                return HttpNotFound();
+                carro = new CARRITOCOMPRA();
             }
             //valida id de producto
             if (id == null)
@@ -44,6 +44,7 @@ namespace Too.Controllers
             //valida objeto
             if (pRODUCTO == null)
             {
+                //debe retornar no encontrado pues sería contradictorio que pudiera acceder al detalle de un producto que no existe
                 return HttpNotFound();
             }
             //mete a viewbag producto y carrito
@@ -55,21 +56,29 @@ namespace Too.Controllers
         }
         public ActionResult Carrito(int idcarrito)
         {
-            CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idcarrito);
-            ViewBag.idCarro = idcarrito;
-            return View(carro.DETALLECARRITO);
+            try{
+                CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idcarrito);
+                ViewBag.idCarro = idcarrito;
+                return View(carro.DETALLECARRITO);
+            } catch
+            {
+                ViewBag.MensajeError = "No hay carrito que mostrar";
+                ViewBag.BoolError = true;
+                return View(new CARRITOCOMPRA().DETALLECARRITO);
+            }
         }
         public ActionResult Delete(decimal id)
         {
+            int idcarro;
+            //obtiene el id del carrito actual
+            idcarro = int.Parse(Request.Cookies["CarritoCompra"].Value);
             try
             {
+                //validar producto y carrito
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                //obtiene el id del carrito actual
-                int idcarro = int.Parse(Request.Cookies["CarritoCompra"].Value);
-                //validar producto y carrito
                 if ( idcarro == null)
                 {
                     return HttpNotFound();
@@ -81,9 +90,9 @@ namespace Too.Controllers
                 db.SaveChanges();
             } catch (Exception ex)
             {
-
+                return RedirectToAction("Carrito", new { idcarrito = Convert.ToDecimal(idcarro) });
             }
-            return RedirectToAction("Carrito");
+            return RedirectToAction("Carrito", new { idcarrito = Convert.ToDecimal(idcarro)});
         }
         public ActionResult Pagar(int id)
         {
