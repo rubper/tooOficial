@@ -20,24 +20,26 @@ namespace Too.Controllers
             var dETALLECARRITO = db.DETALLECARRITO.Include(d => d.CARRITOCOMPRA).Include(d => d.PRODUCTO);
             return View(dETALLECARRITO.ToList());
         }
-
-        // GET: DetallesCarritos/Details/5
-        public ActionResult Details(decimal id)
+        //FUNCIONAMIENTO DE CARRITO
+        // GET: Ver
+        public ActionResult Ver(decimal id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DETALLECARRITO dETALLECARRITO = db.DETALLECARRITO.Find(id);
-            if (dETALLECARRITO == null)
+            CARRITOCOMPRA carrito = db.CARRITOCOMPRA.Find(id);
+            if (carrito == null)
             {
                 return HttpNotFound();
             }
-            return View(dETALLECARRITO);
+            List<DETALLECARRITO> lsDetalle = db.DETALLECARRITO.Where(m => m.IDCARRITO == id).ToList();
+            ViewBag.ListaCarrito = lsDetalle;
+            return View(carrito);
         }
 
         // GET: DetallesCarritos/Create
-        public ActionResult Create()
+        public ActionResult Añadir()
         {
             ViewBag.IDCARRITO = new SelectList(db.CARRITOCOMPRA, "IDCARRITO", "LUGARENTREGA");
             ViewBag.IDPRODUCTO = new SelectList(db.PRODUCTO, "IDPRODUCTO", "NOMBREPROD");
@@ -45,22 +47,19 @@ namespace Too.Controllers
         }
 
         // POST: DetallesCarritos/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        // ACCIÓN AÑADIR PRODUCTO AL CARRITO
+
+        //FUNCIONAMIENTO DE CARRITO
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDPRODUCTO,IDCARRITO,CANTIDADPROD,PRECIO")] DETALLECARRITO dETALLECARRITO)
+        public void AñadirProducto([Bind(Include = "IDPRODUCTO,IDCARRITO,CANTIDADPROD,PRECIO")] DETALLECARRITO dETALLECARRITO)
         {
             if (ModelState.IsValid)
             {
                 db.DETALLECARRITO.Add(dETALLECARRITO);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            ViewBag.IDCARRITO = new SelectList(db.CARRITOCOMPRA, "IDCARRITO", "LUGARENTREGA", dETALLECARRITO.IDCARRITO);
-            ViewBag.IDPRODUCTO = new SelectList(db.PRODUCTO, "IDPRODUCTO", "NOMBREPROD", dETALLECARRITO.IDPRODUCTO);
-            return View(dETALLECARRITO);
+            Response.Redirect("~/Detalle/Producto/" + dETALLECARRITO.IDPRODUCTO.ToString());
         }
 
         // GET: DetallesCarritos/Edit/5

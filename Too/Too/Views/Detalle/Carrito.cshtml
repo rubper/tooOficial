@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Too.Models.DETALLECARRITO>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CARRITOCOMPRA.LUGARENTREGA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRODUCTO.NOMBREPROD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CANTIDADPROD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRECIO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CARRITOCOMPRA.LUGARENTREGA)
+        </td>
+        <td>
+            <a href="@Url.Action("Producto", "Detalle", new { id = item.IDPRODUCTO })">
+                 @Html.DisplayFor(modelItem => item.PRODUCTO.NOMBREPROD)
+            </a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CANTIDADPROD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PRECIO)
+        </td>
+        <td>
+            @Html.ActionLink("X", "Delete", new { id = item.IDPRODUCTO })
+        </td>
+    </tr>
+}
+
+</table>

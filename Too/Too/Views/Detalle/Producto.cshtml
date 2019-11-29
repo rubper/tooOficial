@@ -1,4 +1,4 @@
-﻿@model Too.Models.PRODUCTO
+﻿@model Too.Models.DETALLECARRITO
 
 @{
     ViewBag.Title = "Details";
@@ -11,55 +11,98 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SUBDEPARTAMENTO.NOMSUBCATEGORIA)
+            Subdepartamento:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SUBDEPARTAMENTO.NOMSUBCATEGORIA)
+            @ViewBag.PROD.SUBDEPARTAMENTO.NOMSUBCATEGORIA
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NOMBREPROD)
+            Producto:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NOMBREPROD)
+            @ViewBag.PROD.NOMBREPROD
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DESCPROD)
+            Descripción
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DESCPROD)
+            @ViewBag.PROD.DESCPROD
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PRECIOUNIT)
+            Precio:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PRECIOUNIT)
+            @ViewBag.PROD.PRECIOUNIT
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IMAGENPROD)
+            Imagen:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IMAGENPROD)
+            @ViewBag.PROD.IMAGENPROD
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DISPONIBILIDAD)
+            ¿Disponible?
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DISPONIBILIDAD)
+            @if (@ViewBag.PROD.DISPONIBILIDAD == true)
+            {
+                <p>En Stock</p>
+            }
+            else
+            {
+                <p>Agotado</p>
+            }
         </dd>
 
     </dl>
 </div>
+
 <p>
     <a href="@Url.Action("Index", "Home")">Regresar al índice</a>
 </p>
+@using (Html.BeginForm("AñadirProducto", "DetallesCarritos", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" name="IDPRODUCTO" value="@ViewBag.PROD.IDPRODUCTO" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" name="IDCARRITO" value="@ViewBag.CARR.IDCARRITO" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="text" name="CANTIDADPROD" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="text" name="PRECIO" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="submit" value="Añadir producto al carrito" class="btn btn-default" />
+        </div>
+    </div>
+}
+<!--
+<input type="hidden" name="txndate" value="2019-01-08" />
+<input type="hidden" name="merefundref" value="25631" />
+<input type="submit" name="submit" value="Submit" />
+    -->

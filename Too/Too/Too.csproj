@@ -173,6 +173,7 @@
     <Compile Include="Controllers\CantidadesProductosController.cs" />
     <Compile Include="Controllers\CarritosComprasController.cs" />
     <Compile Include="Controllers\DepartamentosController.cs" />
+    <Compile Include="Controllers\DetalleController.cs" />
     <Compile Include="Controllers\DetallesCarritosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImpuestosController.cs" />
@@ -316,6 +317,8 @@
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Producto.cshtml" />
+    <Content Include="Views\Detalle\Carrito.cshtml" />
+    <Content Include="Views\Detalle\Producto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
