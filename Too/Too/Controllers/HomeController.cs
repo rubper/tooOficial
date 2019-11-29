@@ -47,8 +47,14 @@ namespace Too.Controllers
             {
                 if (prodAux[j] == null)
                 {
-                   prodAux[j] = nousados.Last();
-                    nousados.Remove(prodAux[j - 1]);
+                    if(nousados.Count == 0)
+                    {
+                        prodAux[j] = prodAux[0];
+                    } else
+                    {
+                        prodAux[j] = nousados.Last();
+                        nousados.Remove(prodAux[j - 1]);
+                    }
                 }
             }
             productos = prodAux.ToList();
@@ -64,7 +70,7 @@ namespace Too.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Gestione los elementos de su página web de ventas";
 
             return View();
         }

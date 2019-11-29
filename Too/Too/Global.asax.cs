@@ -34,66 +34,61 @@ namespace Too
             //si la cookie de la request es nula, añadir nueva
             if (ckRequest == null)
             {
-                añadirCookieCarrito();
-            }
-            //sin embargo, si hay un valor de la cookie, y este valor es positivo
-            else if (ckRequest.Value != null && int.Parse(ckRequest.Value) > 1)
-            {
-                try
+                //añade a la base un registro vacío de carrito (genera id en base)
+                if (db.CARRITOCOMPRA.Count() == 0)
                 {
-                    //obtener el valor de cookie en un auxiliar
-                    int i = int.Parse(ckRequest.Value);
-                    //intentar obtener el carrito de compra con el valor de cookie
-                    CARRITOCOMPRA verificarCarrito = db.CARRITOCOMPRA.Find(i);
-
-                    //validar (si existe, entonces...)
-                    if (verificarCarrito != null)
-                    {
-                        //el valor de cookie carrito del paso 1 se llena con el valor de cookie de request
-                        carrito.Value = ckRequest.Value;
-                        //expira en un año
-                        carrito.Expires = DateTime.Now.AddYears(1);
-                        //el objeto carro de la presente clase se vuelve el objeto que se trajo en request
-                        carro = verificarCarrito;
-                        //el id del carrito de la presente clase se vuelve el id que se trajo en request
-                        id = i;
-                    }
-                    //sin embargo, si no existe...
-                    else
-                    {
-                        //eliminar cookie CarritoCompra
-                        Response.Cookies.Remove("CarritoCompra");
-                        //añadir nueva cookie
-                        añadirCookieCarrito();
-                    }
-
+                    id = 1;
                 }
-                catch (Exception ex)
+                else
                 {
-
+                    id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO) + 1;
                 }
+                //se llena cookie con la información
+                carrito.Value = id.ToString();
+                carrito.Expires = DateTime.Now.AddYears(1);
+                //se mete la cookie a la respuesta
+                Response.Cookies.Add(carrito);
             }
             else
             {
-               añadirCookieCarrito();
+                //obtener el valor de cookie en un auxiliar
+                id = decimal.Parse(ckRequest.Value);
+                //intentar obtener el carrito de compra con el valor de cookie
+                CARRITOCOMPRA verificarCarrito = db.CARRITOCOMPRA.Find(id);
+
+                //validar (si existe, entonces...)
+                if (verificarCarrito != null && verificarCarrito.IDCARRITO == id)
+                {
+                    carro = verificarCarrito;
+                    //el valor de cookie carrito del paso 1 se llena con el valor de cookie de request
+                    carrito.Value = ckRequest.Value;
+                    //expira en un año
+                    carrito.Expires = DateTime.Now.AddYears(1);
+                    Response.Cookies.Add(carrito);
+                }
+                //sin embargo, si no existe...
+                else
+                {
+                    //añade a la base un registro vacío de carrito (genera id en base)
+                    //obtiene el id del ultimo carrito registrado (se guarda en id)
+                    if (db.CARRITOCOMPRA.Count() == 0)
+                    {
+                        id = 1;
+                    }
+                    else
+                    {
+                        id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO) + 1;
+                    }
+                    //se obtiene el ultimo carrito registrado en objeto
+                    //se llena cookie con la información
+                    carrito.Value = id.ToString();
+                    carrito.Expires = DateTime.Now.AddYears(1);
+                    //se mete la cookie a la respuesta
+                    Response.Cookies.Add(carrito);
+                }
+
             }
+            
         }
-
-        public void añadirCookieCarrito()
-        {
-            //añade a la base un registro vacío de carrito (genera id en base)
-            db.CARRITOCOMPRA.Add(new CARRITOCOMPRA());
-            db.SaveChanges();
-            //obtiene el id del ultimo carrito registrado (se guarda en id)
-            id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO);
-            //se obtiene el ultimo carrito registrado en objeto
-            carro = db.CARRITOCOMPRA.Find(id);
-            //se llena cookie con la información
-            carrito.Value = id.ToString();
-            carrito.Expires = DateTime.Now.AddYears(1);
-            //se mete la cookie a la respuesta
-            Response.Cookies.Add(carrito);
-        }
-
     }
 }
