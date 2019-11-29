@@ -15,7 +15,7 @@ namespace Too
         private HttpCookie carrito, cantCarrito;
 
         private decimal id;
-        CARRITOCOMPRA carro;
+        CARRITOCOMPRA carro = new CARRITOCOMPRA();
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -34,20 +34,18 @@ namespace Too
             //si la cookie de la request es nula, añadir nueva
             if (ckRequest == null)
             {
-                //añade a la base un registro vacío de carrito (genera id en base)
-                if (db.CARRITOCOMPRA.Count() == 0)
-                {
-                    id = 1;
-                }
-                else
+                id = 1;
+                if (db.CARRITOCOMPRA.Count() != 0)
                 {
                     id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO) + 1;
                 }
                 //se llena cookie con la información
-                carrito.Value = id.ToString();
-                carrito.Expires = DateTime.Now.AddYears(1);
-                //se mete la cookie a la respuesta
-                Response.Cookies.Add(carrito);
+                Response.Cookies["CarritoCompra"].Value = id.ToString();
+                Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
+                CARRITOCOMPRA aux = new CARRITOCOMPRA();
+                //carro.IDCARRITO = id;
+                db.CARRITOCOMPRA.Add(aux);
+                db.SaveChanges();
             }
             else
             {
@@ -56,35 +54,30 @@ namespace Too
                 //intentar obtener el carrito de compra con el valor de cookie
                 CARRITOCOMPRA verificarCarrito = db.CARRITOCOMPRA.Find(id);
 
-                //validar (si existe, entonces...)
+                //validar (caso 1: es válida)
                 if (verificarCarrito != null && verificarCarrito.IDCARRITO == id)
                 {
-                    carro = verificarCarrito;
-                    //el valor de cookie carrito del paso 1 se llena con el valor de cookie de request
-                    carrito.Value = ckRequest.Value;
-                    //expira en un año
-                    carrito.Expires = DateTime.Now.AddYears(1);
-                    Response.Cookies.Add(carrito);
+                    Response.Cookies["CarritoCompra"].Value = ckRequest.Value;
+                    Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
+
                 }
-                //sin embargo, si no existe...
+                //sin embargo, (Caso 2: no es válida)
                 else
                 {
                     //añade a la base un registro vacío de carrito (genera id en base)
-                    //obtiene el id del ultimo carrito registrado (se guarda en id)
-                    if (db.CARRITOCOMPRA.Count() == 0)
-                    {
-                        id = 1;
-                    }
-                    else
+                    //obtiene el id del ultimo carrito registrado (se guarda en id
+                    id = 1;
+                    if (db.CARRITOCOMPRA.Count() != 0)
                     {
                         id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO) + 1;
                     }
-                    //se obtiene el ultimo carrito registrado en objeto
                     //se llena cookie con la información
-                    carrito.Value = id.ToString();
-                    carrito.Expires = DateTime.Now.AddYears(1);
-                    //se mete la cookie a la respuesta
-                    Response.Cookies.Add(carrito);
+                    Response.Cookies["CarritoCompra"].Value = id.ToString();
+                    Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
+                    CARRITOCOMPRA aux = new CARRITOCOMPRA();
+                    //carro.IDCARRITO = id;
+                    db.CARRITOCOMPRA.Add(aux);
+                    db.SaveChanges();
                 }
 
             }

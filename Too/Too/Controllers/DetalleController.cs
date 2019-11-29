@@ -33,6 +33,11 @@ namespace Too.Controllers
             if(carro == null)
             {
                 carro = new CARRITOCOMPRA();
+                db.CARRITOCOMPRA.Add(carro);
+                db.SaveChanges();
+                idCarrito = db.CARRITOCOMPRA.Max(p => p.IDCARRITO);
+                carro.IDCARRITO = idCarrito;
+                Response.Cookies["CarritoCompra"].Value = idCarrito.ToString();
             }
             //valida id de producto
             if (id == null)
