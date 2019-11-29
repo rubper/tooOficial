@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Inicio";
 }
+//HEAD
 @ViewBag.IdCarritoCompra
 <table class="table">
     @foreach (var item in Model)
@@ -68,3 +69,37 @@
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+
+    <div class="jumbotron">
+
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                if (item != null)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SUBDEPARTAMENTO.NOMSUBCATEGORIA)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Producto", "Detalle", new { id = item.IDPRODUCTO })">
+                                @Html.DisplayFor(modelItem => item.NOMBREPROD)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DESCPROD)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRECIOUNIT)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IMAGENPROD)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DISPONIBILIDAD)
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div> 2a00fdc26448c9830fefe2a68ffae2f88627636f

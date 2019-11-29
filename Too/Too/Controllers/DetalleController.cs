@@ -32,7 +32,12 @@ namespace Too.Controllers
             //valida objeto carrito
             if(carro == null)
             {
-                return HttpNotFound();
+                carro = new CARRITOCOMPRA();
+                db.CARRITOCOMPRA.Add(carro);
+                db.SaveChanges();
+                idCarrito = db.CARRITOCOMPRA.Max(p => p.IDCARRITO);
+                carro.IDCARRITO = idCarrito;
+                Response.Cookies["CarritoCompra"].Value = idCarrito.ToString();
             }
             //valida id de producto
             if (id == null)
@@ -44,6 +49,7 @@ namespace Too.Controllers
             //valida objeto
             if (pRODUCTO == null)
             {
+                //debe retornar no encontrado pues sería contradictorio que pudiera acceder al detalle de un producto que no existe
                 return HttpNotFound();
             }
             //mete a viewbag producto y carrito
@@ -55,21 +61,30 @@ namespace Too.Controllers
         }
         public ActionResult Carrito(int idcarrito)
         {
-            CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idcarrito);
-            return View(carro.DETALLECARRITO);
+            try{
+                CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idcarrito);
+                ViewBag.idCarro = idcarrito;
+                return View(carro.DETALLECARRITO);
+            } catch
+            {
+                ViewBag.MensajeError = "No hay carrito que mostrar";
+                ViewBag.BoolError = true;
+                return View(new CARRITOCOMPRA().DETALLECARRITO);
+            }
         }
         public ActionResult Delete(decimal id)
         {
+            int idcarro;
+            //obtiene el id del carrito actual
+            idcarro = int.Parse(Request.Cookies["CarritoCompra"].Value);
             try
             {
+                //validar producto y carrito
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                //obtiene el id del carrito actual
-                int idcarro = int.Parse(Request.Cookies["CarritoCompra"].Value);
-                //validar producto y carrito
-                if (id == null || idcarro == null)
+                if ( idcarro == null)
                 {
                     return HttpNotFound();
                 }
@@ -80,9 +95,34 @@ namespace Too.Controllers
                 db.SaveChanges();
             } catch (Exception ex)
             {
-
+                return RedirectToAction("Carrito", new { idcarrito = Convert.ToDecimal(idcarro) });
             }
-            return RedirectToAction("Carrito");
+            return RedirectToAction("Carrito", new { idcarrito = Convert.ToDecimal(idcarro)});
+        }
+        public ActionResult Pagar(int id)
+        {
+            CARRITOCOMPRA carro = new CARRITOCOMPRA();
+            try
+            {
+                List<PRODUCTO> lsprod = new List<PRODUCTO>();
+                List<DETALLECARRITO> det = db.DETALLECARRITO.Where(m => m.IDCARRITO == id).ToList();
+                carro = db.CARRITOCOMPRA.Find(id);
+                decimal asdf, total = 0;
+                PRODUCTO aux;
+                foreach (DETALLECARRITO hes in det)
+                {
+                    asdf = hes.IDPRODUCTO;
+                    aux = db.PRODUCTO.Find(asdf);
+                    if (aux != null) {
+                        lsprod.Add(aux);
+                        total += aux.PRECIOUNIT * hes.CANTIDADPROD;
+                    }
+
+                }
+                ViewBag.total = total;
+                ViewBag.lsta = lsprod;
+            } catch { }
+            return View(carro);
         }
     }
 }
