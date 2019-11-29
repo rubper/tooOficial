@@ -22,7 +22,7 @@
                 @Html.DisplayFor(modelItem => item.PRECIOUNIT)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IMAGENPROD)
+                <img width="100" height="150" src="@Url.Action("obtenerImagen","Productos",new { id=item.IDPRODUCTO})" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DISPONIBILIDAD)

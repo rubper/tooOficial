@@ -68,6 +68,11 @@ namespace Too.Controllers
                         }
                         pRODUCTO.IMAGENPROD = imagenData;
                     }
+                    else
+                    {
+                        byte[] byteImagen = new WebImage("~/imgNoDisponible1.jpg").GetBytes();
+                        pRODUCTO.IMAGENPROD = byteImagen;
+                    }
 
                     db.PRODUCTO.Add(pRODUCTO);
                     db.SaveChanges();
@@ -112,6 +117,7 @@ namespace Too.Controllers
                 pRODUCTO.IMAGENPROD = image.GetBytes();
                 db.Entry(pRODUCTO).State = EntityState.Modified;
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
             ViewBag.IDSUBCATEGORIA = new SelectList(db.SUBDEPARTAMENTO, "IDSUBCATEGORIA", "NOMSUBCATEGORIA", pRODUCTO.IDSUBCATEGORIA);
@@ -119,7 +125,7 @@ namespace Too.Controllers
         }
 
         // GET: Productos/Delete/5
-        public ActionResult Delete(decimal id)
+        public  ActionResult Delete(decimal id)
         {
             if (id == null)
             {
@@ -141,6 +147,8 @@ namespace Too.Controllers
             PRODUCTO pRODUCTO = db.PRODUCTO.Find(id);
             db.PRODUCTO.Remove(pRODUCTO);
             db.SaveChanges();
+            
+
             return RedirectToAction("Index");
         }
 
@@ -158,8 +166,22 @@ namespace Too.Controllers
         {
             PRODUCTO produ = db.PRODUCTO.Find(id);
             byte[] byteImagen = produ.IMAGENPROD;
-            MemoryStream memoryStream = new MemoryStream(byteImagen);
+            MemoryStream memoryStream = null;
+            if (byteImagen != null)
+            {
+                
+                memoryStream = new MemoryStream(byteImagen);
+            }
+            else
+            {
+                byteImagen = new WebImage("~/imgNoDisponible1.jpg").GetBytes();
+                produ.IMAGENPROD = byteImagen;
+                db.Entry(produ).State = EntityState.Modified;
+                db.SaveChanges();
+                memoryStream = new MemoryStream(byteImagen);
+            }
             return File(memoryStream, "image/jpg");
+
         }
     }
 }
