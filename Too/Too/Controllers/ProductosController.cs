@@ -107,6 +107,9 @@ namespace Too.Controllers
         {
             if (ModelState.IsValid)
             {
+				HttpPostedFileBase FileBase = Request.Files[0];
+                WebImage image = new WebImage(FileBase.InputStream);
+                pRODUCTO.IMAGENPROD = image.GetBytes();
                 db.Entry(pRODUCTO).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
