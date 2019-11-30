@@ -17,27 +17,69 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CARRITOCOMPRA.LUGARENTREGA)
-        </td>
-        <td>
-            <a href="@Url.Action("Producto", "Detalle", new { id = item.IDPRODUCTO })">
-                 @Html.DisplayFor(modelItem => item.PRODUCTO.NOMBREPROD)
-            </a>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CANTIDADPROD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PRECIO)
-        </td>
-        <td>
-            @Html.ActionLink("X", "Delete", new { id = item.IDPRODUCTO })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CARRITOCOMPRA.LUGARENTREGA)
+            </td>
+            <td>
+                <a href="@Url.Action("Producto", "Detalle", new { id = item.IDPRODUCTO })">
+                    @Html.DisplayFor(modelItem => item.PRODUCTO.NOMBREPROD)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CANTIDADPROD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRECIO)
+            </td>
+            <td>
+                @Html.ActionLink("X", "Delete", new { id = item.IDPRODUCTO })
+            </td>
+        </tr>
+    }
 </table>
-
-<a href="@Url.Action("Comprar", "Detalle", new { id = ViewBag.idCarro })">
+@using (Html.BeginForm("Pagar", "Detalle", FormMethod.Post))
+{
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" name="IDCARRITO" value="@ViewBag.idCarro" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            Tarifa Envio
+            @Html.DropDownList("IDTARIFAENVIO", new SelectList(ViewBag.Tarifas, "VALORTARIFA", "NOMBRETARIFA"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            Envío
+            <input type="checkbox" name="ENVIO" /> Deseo envío
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            Subtotal
+            <input type="text" name="SUBTOTAL" value="@ViewBag.subtotal" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            Lugar de Entrega
+            <input type="text" name="LUGARENTREGA" value=""/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            Método de pago
+            <select id="METODOPAGO" name="METODOPAGO"><option value="1">Paypal</option><option value="2">Visa/Mastercard</option></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="submit" value="Añadir producto al carrito" class="btn btn-default" />
+        </div>
+    </div>
+}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.Entity;
 using System.Net;
 using System.Web;
@@ -64,6 +65,26 @@ namespace Too.Controllers
             try{
                 CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idcarrito);
                 ViewBag.idCarro = idcarrito;
+                List<PRODUCTO> lsprod = new List<PRODUCTO>();
+                List<DETALLECARRITO> lsDetalle = carro.DETALLECARRITO.ToList();
+                List<TARIFAENVIO> lsTarifa = db.TARIFAENVIO.ToList();
+                decimal idproducto, total = 0;
+                PRODUCTO productoAux;
+                foreach (DETALLECARRITO detalleAux in lsDetalle)
+                {
+                    idproducto = detalleAux.IDPRODUCTO;
+                    productoAux = db.PRODUCTO.Find(idproducto);
+                    if (productoAux != null)
+                    {
+                        lsprod.Add(productoAux);
+                        total += productoAux.PRECIOUNIT * detalleAux.CANTIDADPROD;
+                    }
+
+                }
+                ViewBag.subtotal = carro.SUBTOTAL = total;
+                ViewBag.lsta = lsprod;
+                ViewBag.Tarifas = lsTarifa;
+                ViewBag.tarif = lsTarifa.First().VALORTARIFA;
                 return View(carro.DETALLECARRITO);
             } catch
             {
@@ -99,30 +120,54 @@ namespace Too.Controllers
             }
             return RedirectToAction("Carrito", new { idcarrito = Convert.ToDecimal(idcarro)});
         }
-        public ActionResult Pagar(int id)
+        /// <summary>
+        /// Pagar: Lleva a pantalla de compra final, lleva consigo el total y la lista de productos correspondiente al carrito
+        /// </summary>
+        /// <param name="id">identificador del carrito del usuario actual</param>
+        /// <returns>Resultado de acción (vista con parámetro carrito de compra)</returns>
+        [Authorize]
+        public ActionResult Pagar([Bind(Include = "IDCARRITO,IDTARIFAENVIO,ENVIO,SUBTOTAL,LUGARENTREGA,METODOPAGO")] CARRITOCOMPRA cARRITOCOMPRA)
         {
-            CARRITOCOMPRA carro = new CARRITOCOMPRA();
-            try
+            ViewBag.Title = "Pagar";
+            CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(cARRITOCOMPRA.IDCARRITO);
+            List<PRODUCTO> lsprod = new List<PRODUCTO>();
+            List<DETALLECARRITO> lsDetalle = carro.DETALLECARRITO.ToList();
+            if (lsDetalle != null)
             {
-                List<PRODUCTO> lsprod = new List<PRODUCTO>();
-                List<DETALLECARRITO> det = db.DETALLECARRITO.Where(m => m.IDCARRITO == id).ToList();
-                carro = db.CARRITOCOMPRA.Find(id);
-                decimal asdf, total = 0;
-                PRODUCTO aux;
-                foreach (DETALLECARRITO hes in det)
+                List<TARIFAENVIO> lsTarifa = db.TARIFAENVIO.ToList();
+                decimal idproducto, subtotal = 0;
+                PRODUCTO productoAux;
+                foreach (DETALLECARRITO detalleAux in lsDetalle)
                 {
-                    asdf = hes.IDPRODUCTO;
-                    aux = db.PRODUCTO.Find(asdf);
-                    if (aux != null) {
-                        lsprod.Add(aux);
-                        total += aux.PRECIOUNIT * hes.CANTIDADPROD;
+                    idproducto = detalleAux.IDPRODUCTO;
+                    productoAux = db.PRODUCTO.Find(idproducto);
+                    if (productoAux != null)
+                    {
+                        lsprod.Add(productoAux);
+                        subtotal += productoAux.PRECIOUNIT * detalleAux.CANTIDADPROD;
                     }
 
                 }
-                ViewBag.total = total;
+                ViewBag.subtotal = carro.SUBTOTAL = subtotal;
                 ViewBag.lsta = lsprod;
-            } catch { }
-            return View(carro);
+            }
+            var result = db.CARRITOCOMPRA.SingleOrDefault(b => b.IDCARRITO == cARRITOCOMPRA.IDCARRITO);
+            if (result != null)
+            {
+                result.IDTARIFAENVIO = cARRITOCOMPRA.IDTARIFAENVIO;
+                result.ENVIO = cARRITOCOMPRA.ENVIO;
+                result.SUBTOTAL = cARRITOCOMPRA.SUBTOTAL;
+                result.LUGARENTREGA = cARRITOCOMPRA.LUGARENTREGA;
+                result.METODOPAGO = cARRITOCOMPRA.LUGARENTREGA;
+                var tarifa = db.TARIFAENVIO.Find(cARRITOCOMPRA.IDTARIFAENVIO);
+                if(tarifa != null)
+                {
+                    var total = cARRITOCOMPRA.SUBTOTAL + tarifa.VALORTARIFA;
+                    ViewBag.total = total;
+                }
+                db.SaveChanges();
+            }
+            return View(cARRITOCOMPRA);
         }
     }
 }

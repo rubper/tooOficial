@@ -1,4 +1,4 @@
-﻿
+﻿@model Too.Models.CARRITOCOMPRA
 @{
     ViewBag.Title = "Pagar";
 }
@@ -6,33 +6,45 @@
 <h2>Pagar</h2>
 
 
-@using (Html.BeginForm("AñadirProducto", "DetallesCarritos", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="hidden" name="IDPRODUCTO" value="@ViewBag.PROD.IDPRODUCTO" />
-        </div>
+<div class="form-group">
+    <div class="col-md-10">
+        <input type="hidden" name="IDCARRITO" value="@Model.IDCARRITO" readonly />
     </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="hidden" name="IDCARRITO" value="@ViewBag.CARR.IDCARRITO" />
-        </div>
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        Tarifa Envio
+        <input type="text" name="IDTARIFAENVIO" value="@Model.TARIFAENVIO.NOMBRETARIFA" readonly />
     </div>
-
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="text" name="CANTIDADPROD" value="" />
-        </div>
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        <input type="hidden" name="ENVIO" /> Deseo envío
     </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="text" name="PRECIO" value="" />
-        </div>
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        Subtotal
+        <input type="text" name="SUBTOTAL" value="@Model.SUBTOTAL" readonly />
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" name="submit" value="Añadir producto al carrito" class="btn btn-default" />
-        </div>
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        <input type="text" name="TOTAL" value="@ViewBag.total" readonly />
     </div>
-}
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        <input type="text" name="LUGARENTREGA" value="@Model.LUGARENTREGA" readonly />
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        <input type="text" name="METODOPAGO" value="@Model.METODOPAGO" readonly />
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <a class="btn btn-primary" href="@Url.Action("Index", "Home")"> Comprar </a>
+    </div>
+</div>

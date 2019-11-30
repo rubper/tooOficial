@@ -58,6 +58,7 @@ namespace Too.Controllers
                 }
             }
             productos = prodAux.ToList();
+            ViewBag.listaProds = conexionBase.PRODUCTO.Include(p => p.SUBDEPARTAMENTO).ToList();
             return View(productos);
         }
 
