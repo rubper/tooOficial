@@ -50,7 +50,10 @@
     <div class="form-group">
         <div class="col-md-10">
             Tarifa Envio
+            @if (ViewBag.Tarifas != null)
+            {
             @Html.DropDownList("IDTARIFAENVIO", new SelectList(ViewBag.Tarifas, "VALORTARIFA", "NOMBRETARIFA"), new { @class = "form-control" })
+            }
         </div>
     </div>
     <div class="form-group">

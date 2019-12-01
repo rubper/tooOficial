@@ -8,7 +8,12 @@ namespace IdentitySample
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.min.js",
+                        "~/Scripts/active.js",
+                        "~/Scripts/classy-nav.min.js",
+                        "~/Scripts/map-active.js",
+                        "~/Scripts/plugins.js",
+                        "~/Scripts/popper.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -23,8 +28,23 @@ namespace IdentitySample
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/boostrap.min.css",
+                      "~/Content/style.css",
+                      "~/Content/animate.css",
+                      "~/Content/classy-nav.min.css",
+                      "~/Content/core-style.css",
+                      "~/Content/core-style.css.map",
+                      "~/Content/jquery-ui.min.css",
+                      "~/Content/nice-select.css",
+                      "~/Content/owl.carousel.css",
+                      "~/Content/style.scss",
+                      "~/Content/magnific-popup.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/_mixin.scss",
+                      "~/Content/_resposive.scss",
+                      "~/Content/_theme_color.scss",
+                      "~/Content/_variables.scss"
+                      ));
         }
     }
 }
