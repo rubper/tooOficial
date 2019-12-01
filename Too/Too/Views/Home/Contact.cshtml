@@ -1,45 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Administración";
+    ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+</hgroup>
+<div>
+    <address>
+        One Microsoft Way<br />
+        Redmond, WA 98052-6399<br />
+        <abbr title="Phone">P:</abbr>
+        425.555.0100
+    </address>
 
-<h3>Controle aspectos de los productos en disposición como Departamentos, Inventario, Tarifas, y demás.</h3>
-<table>
-    <tr>
-        <th>
-            <p>Gestión de productos</p>
-        </th>
-        <th>
-            <p>Gestión de categorías</p>
-        </th>
-    </tr>
-    <tr>
-        <td>
-            <p><a href="@Url.Action("Index", "Productos")">Ir a Productos</a></p>
-            <p><a href="@Url.Action("Index", "CantidadesProductos")">Ir a Inventario de productos</a></p>
-        </td>
-        <td>
-            <p><a href="@Url.Action("Index", "Departamentos")">Ir a Departamentos</a></p>
-            <p><a href="@Url.Action("Index", "Subdepartamentos")">Ir a Subdepartamentos</a></p>
-            <p><a href="@Url.Action("Index", "Tags")">Ir a Tags</a></p>
-            <p><a href="@Url.Action("Index", "Regiones")">Ir a Regiones</a></p>
-        </td>
-    </tr>
-    <tr>
-        <th>
-            <p>Gestión de usuarios</p>
-        </th>
-        <th>
-            <p>Gestión de deductibles</p>
-        </th>
-    </tr>
-    <tr>
-        <td>
-            <p><a href="@Url.Action("Index", "TarifasEnvio")">Ir a Tarifas de Envío</a></p>
-            <p><a href="@Url.Action("Index", "Impuestos")">Ir a Impuestos</a></p>
-        </td>
-        <td>
-            <p><a href="@Url.Action("Index", "Usuarios")">Ir a Usuarios</a></p>
-        </td>
-    </tr>
-</table>
+    <address>
+        <i class="icon-envelope"></i><strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+        <i class="icon-envelope"></i><strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    </address>
+</div>
