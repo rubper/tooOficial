@@ -13,7 +13,7 @@ using System.Web;
 using SendGrid.Helpers.Mail;
 using System.Configuration;
 
-namespace IdentitySample.Models
+namespace Too.Models
 {
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
 
