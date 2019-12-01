@@ -56,25 +56,66 @@ namespace Too.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool seskipeara = true;
+                bool seañadira = true;
+                int cantidadCarrito = 0;
                 decimal idCarrito = decimal.Parse(Request.Cookies["CarritoCompra"].Value);
-                int cantidadCarrito = int.Parse(Request.Cookies["CantidadCarrito"].Value) + 1;
-                List<DETALLECARRITO> lsDetalles = db.DETALLECARRITO.Where(m => m.IDCARRITO == idCarrito).ToList();
+                HttpCookie galletaCantidad = Request.Cookies.Get("CantidadCarrito");
+                HttpCookie galletaCantidadSalida = new HttpCookie("CantidadCarrito");
+                List<DETALLECARRITO> lsDetalles;
+                //se obtiene lista de detalles donde su carrito corresponda al carrito de la request
+                lsDetalles = db.DETALLECARRITO.Where(m => m.IDCARRITO == idCarrito).ToList();
+                //si la lista tiene elementos
                 if (lsDetalles != null)
-                {
-                    foreach(DETALLECARRITO detalle in lsDetalles)
-                    {
+                {// para cada uno de los elementos
+                    foreach (DETALLECARRITO detalle in lsDetalles)
+                    {//si el producto ya está en la lista
                         if (detalle.IDPRODUCTO == dETALLECARRITO.IDPRODUCTO)
-                        {
-                            seskipeara = false;
+                        {//se saltará el ingreso
+                            seañadira = false;
                         }
                     }
-                    if (seskipeara)
+                    if (seañadira)
                     {
-                        Response.Cookies["CantidadCarrito"].Value = cantidadCarrito.ToString();
-                        Response.Cookies["CantidadCarrito"].Expires = DateTime.Now.AddYears(1);
                         db.DETALLECARRITO.Add(dETALLECARRITO);
                         db.SaveChanges();
+                    }
+                }
+                //si la cookie ya existe
+                if (galletaCantidad != null)
+                {
+                    if (galletaCantidad.Value != null)
+                    {
+                        //cantidad de productos en el carrito es el valor anterior + 1
+                        cantidadCarrito = int.Parse(galletaCantidad.Value) + 1;
+                    } else
+                    {
+                        cantidadCarrito = 1;
+                    }
+                    galletaCantidadSalida.Value = cantidadCarrito.ToString();
+                    galletaCantidadSalida.Expires = DateTime.Now.AddYears(1);
+                    Response.Cookies.Set(galletaCantidadSalida);
+                } else
+                {
+                    //si no existe, se intenta obtener la lista de detallecarrito
+                    lsDetalles = db.DETALLECARRITO.Where(m => m.IDCARRITO == idCarrito).ToList();
+                    //si la lista no está vacía
+                    if (lsDetalles != null)
+                    {
+                        int aux = 0;
+                        //para cada uno
+                        foreach (DETALLECARRITO detalle in lsDetalles)
+                        {
+                            aux++;
+                        }
+                        galletaCantidadSalida.Value = aux.ToString();
+                        galletaCantidadSalida.Expires = DateTime.Now.AddYears(1);
+                        Response.Cookies.Set(galletaCantidadSalida);
+
+                    } else
+                    {
+                        galletaCantidadSalida.Value = "1";
+                        galletaCantidadSalida.Expires = DateTime.Now.AddYears(1);
+                        Response.Cookies.Set(galletaCantidadSalida);
                     }
 
                 }

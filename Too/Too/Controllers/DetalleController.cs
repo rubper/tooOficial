@@ -20,11 +20,29 @@ namespace Too.Controllers
         public ActionResult Producto(int id)
         {
             //obtiene cookie
-            HttpCookie ckRequest = Request.Cookies["CarritoCompra"];
+            HttpCookie carrito = new HttpCookie("CarritoCompra"), cantCarrito = new HttpCookie("CantidadCarrito");
+            HttpCookie ckRequest = Request.Cookies.Get("CarritoCompra");
             //valida id de carrito
             if (ckRequest.Value == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                id = 1;
+                if (db.CARRITOCOMPRA.Count() != 0)
+                {
+                    id = Convert.ToInt32(db.CARRITOCOMPRA.Max(p => p.IDCARRITO)) + 1;
+                }
+                //se llena cookie con la información
+                Response.Cookies["CarritoCompra"].Value = id.ToString();
+                Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
+                Response.Cookies["CantidadCarrito"].Value = "0";
+                CARRITOCOMPRA aux = new CARRITOCOMPRA();
+                aux.IDCARRITO = id;
+                aux.IDTARIFAENVIO = 1;
+                aux.IDUSUARIO = 1;
+                aux.USUARIO = db.USUARIO.Find(1);
+                aux.TARIFAENVIO = db.TARIFAENVIO.Find(1);
+                //carro.IDCARRITO = id;
+                db.CARRITOCOMPRA.Add(aux);
+                db.SaveChanges();
             }
             //obtiene valor de cookie (id de carrito)
             decimal idCarrito = decimal.Parse(ckRequest.Value);
@@ -34,11 +52,18 @@ namespace Too.Controllers
             if (carro == null)
             {
                 carro = new CARRITOCOMPRA();
+                idCarrito = db.CARRITOCOMPRA.Max(p => p.IDCARRITO) + 1;
+                carro.IDCARRITO = idCarrito;
+                carro.USUARIO = db.USUARIO.Find(1);
+                carro.TARIFAENVIO = db.TARIFAENVIO.Find(1);
+                carro.IDUSUARIO = 1;
+                carro.IDTARIFAENVIO = 1;
                 db.CARRITOCOMPRA.Add(carro);
                 db.SaveChanges();
-                idCarrito = db.CARRITOCOMPRA.Max(p => p.IDCARRITO);
-                carro.IDCARRITO = idCarrito;
-                Response.Cookies["CarritoCompra"].Value = idCarrito.ToString();
+                ckRequest.Value = idCarrito.ToString();
+                ckRequest.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Add(ckRequest);
+
             }
             //valida id de producto
             if (id == null)

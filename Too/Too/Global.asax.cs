@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Too.Models;
 
 namespace Too
 {
@@ -58,6 +57,10 @@ namespace Too
                 db.SaveChanges();
             }
         }
+        public void Application_AuthenticateRequest()
+        {
+
+        }
         public void Session_Start()
         {
             //inicializa las cookies
@@ -74,9 +77,12 @@ namespace Too
                     id = db.CARRITOCOMPRA.Max(p => p.IDCARRITO) + 1;
                 }
                 //se llena cookie con la información
-                Response.Cookies["CarritoCompra"].Value = id.ToString();
-                Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
-                Response.Cookies["CantidadCarrito"].Value = "0";
+                carrito.Value = id.ToString();
+                carrito.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Set(carrito);
+                cantCarrito.Value = "0";
+                cantCarrito.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Set(cantCarrito);
                 CARRITOCOMPRA aux = new CARRITOCOMPRA();
                 aux.IDCARRITO = id;
                 aux.IDTARIFAENVIO = 1;
