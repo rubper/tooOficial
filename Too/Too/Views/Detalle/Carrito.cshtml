@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Too.Models.DETALLECARRITO>
+@{
+    ViewBag.Title = "Carrito de compras";
+}
 
 <table class="table">
     <tr>
@@ -40,7 +43,7 @@
         </tr>
     }
 </table>
-@using (Html.BeginForm("Pagar", "Detalle", FormMethod.Post))
+@using (Html.BeginForm())
 {
     <div class="form-group">
         <div class="col-md-10">
@@ -50,9 +53,8 @@
     <div class="form-group">
         <div class="col-md-10">
             Tarifa Envio
-            @if (ViewBag.Tarifas != null)
-            {
-            @Html.DropDownList("IDTARIFAENVIO", new SelectList(ViewBag.Tarifas, "VALORTARIFA", "NOMBRETARIFA"), new { @class = "form-control" })
+            @if (ViewBag.Tarifas != null) {
+            @Html.DropDownList("IDTARIFAENVIO", new SelectList(ViewBag.Tarifas, "IDTARIFA", "NOMBRETARIFA"), new { @class = "form-control" })
             }
         </div>
     </div>
@@ -71,7 +73,7 @@
     <div class="form-group">
         <div class="col-md-10">
             Lugar de Entrega
-            <input type="text" name="LUGARENTREGA" value=""/>
+            <input type="text" name="LUGARENTREGA" value="" />
         </div>
     </div>
     <div class="form-group">
@@ -82,7 +84,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" name="submit" value="Añadir producto al carrito" class="btn btn-default" />
+            <input type="submit" name="submit" value="Comprar" class="btn btn-default" />
         </div>
     </div>
 }
