@@ -13,38 +13,60 @@
 </div>
 <div class="form-group">
     <div class="col-md-10">
-        Tarifa Envio
+        <h5>Tarifa de envío: </h5>
+    </div>
+    <div class="col-md-10">
         <input type="text" name="IDTARIFAENVIO" value="@Model.TARIFAENVIO.NOMBRETARIFA" readonly />
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-10">
-        <input type="hidden" name="ENVIO" /> Deseo envío
+        <h5>Envío: </h5>
+    </div>
+    <div class="col-md-10">
+        @if(@Model.ENVIO){
+            <p>La compra se enviará por medio de un servicio de entrega.</p>
+        }
+        else
+        {
+            <p>La compra se recogerá en sucursal.</p>
+        }
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-10">
-        Subtotal
+        <h5>Subtotal de compra: </h5>
+    </div>
+    <div class="col-md-10">
         <input type="text" name="SUBTOTAL" value="@Model.SUBTOTAL" readonly />
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-10">
-        <input type="text" name="TOTAL" value="@ViewBag.total" readonly />
+        <h5>Total de compra: </h5>
+    </div>
+    <div class="col-md-10">
+        <input type="text" name="TOTAL" value="@Model.TOTAL" readonly />
     </div>
 </div>
 <div class="form-group">
+    <div class="col-md-10">
+        <h5>Lugar de entrega: </h5>
+    </div>
     <div class="col-md-10">
         <input type="text" name="LUGARENTREGA" value="@Model.LUGARENTREGA" readonly />
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-10">
+        <h5>Método de pago: </h5>
+    </div>
+    <div class="col-md-10">
         <input type="text" name="METODOPAGO" value="@Model.METODOPAGO" readonly />
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <a class="btn btn-primary" href="@Url.Action("Index", "Home")"> Comprar </a>
+        <a class="btn btn-default" href="@Url.Action("Index", "Home")"> Comprar </a>
     </div>
 </div>

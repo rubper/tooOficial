@@ -78,8 +78,8 @@ namespace Too.Controllers
 
                     // Uncomment to debug locally  
                     // ViewBag.Link = callbackUrl;
-                    ViewBag.errorMessage = "You must have a confirmed email to log on. "
-                                         + "The confirmation token has been resent to your email account.";
+                    ViewBag.errorMessage = "Debes tener una cuenta confirmada antes de iniciar sesión. "
+                                         + "El código de confirmación ha sido enviado a tu correo.";
                     return View("Error");
                 }
             }
@@ -97,7 +97,7 @@ namespace Too.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Intento de acceso inválido.");
                     return View(model);
             }
         }
@@ -142,7 +142,7 @@ namespace Too.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Código inválido.");
                     return View(model);
             }
         }
@@ -169,10 +169,10 @@ namespace Too.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirma tu cuenta");
 
-                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
-                         + "before you can log in.";
+                    ViewBag.Message = "Verifica tu email, tu cuenta debe estar confirmada  "
+                         + "antes de que puedas ingresar.";
 
                     return View("Info");
                 }
@@ -224,7 +224,7 @@ namespace Too.Controllers
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                await UserManager.SendEmailAsync(user.Id, "Reiniciar contraseña", "Reinicia tu contraseña haciendo clic aquí: <a href=\"" + callbackUrl + "\">link</a>");
                 //ViewBag.Link = callbackUrl;
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }

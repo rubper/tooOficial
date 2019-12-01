@@ -29,7 +29,7 @@ namespace Too.Controllers
             //obtiene valor de cookie (id de carrito)
             decimal idCarrito = decimal.Parse(ckRequest.Value);
             //busca objeto carrito con el id
-            CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(idCarrito);
+            CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(decimal.Parse(Request.Cookies["CarritoCompra"].Value));
             //valida objeto carrito
             if (carro == null)
             {
@@ -176,6 +176,8 @@ namespace Too.Controllers
             int idcarro;
             //obtiene el id del carrito actual
             idcarro = int.Parse(Request.Cookies["CarritoCompra"].Value);
+            int cantidadCarr = int.Parse(Request.Cookies["CantidadCarrito"].Value) - 1;
+            Response.Cookies["CantidadCarrito"].Value = cantidadCarr.ToString();
             try
             {
                 //validar producto y carrito
@@ -208,6 +210,7 @@ namespace Too.Controllers
         public ActionResult Pagar()
         {
             CARRITOCOMPRA carro = db.CARRITOCOMPRA.Find(decimal.Parse(Request.Cookies["CarritoCompra"].Value));
+
             return View(carro);
         }
 

@@ -56,8 +56,28 @@ namespace Too.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.DETALLECARRITO.Add(dETALLECARRITO);
-                db.SaveChanges();
+                bool seskipeara = true;
+                decimal idCarrito = decimal.Parse(Request.Cookies["CarritoCompra"].Value);
+                int cantidadCarrito = int.Parse(Request.Cookies["CantidadCarrito"].Value) + 1;
+                List<DETALLECARRITO> lsDetalles = db.DETALLECARRITO.Where(m => m.IDCARRITO == idCarrito).ToList();
+                if (lsDetalles != null)
+                {
+                    foreach(DETALLECARRITO detalle in lsDetalles)
+                    {
+                        if (detalle.IDPRODUCTO == dETALLECARRITO.IDPRODUCTO)
+                        {
+                            seskipeara = false;
+                        }
+                    }
+                    if (seskipeara)
+                    {
+                        Response.Cookies["CantidadCarrito"].Value = cantidadCarrito.ToString();
+                        Response.Cookies["CantidadCarrito"].Expires = DateTime.Now.AddYears(1);
+                        db.DETALLECARRITO.Add(dETALLECARRITO);
+                        db.SaveChanges();
+                    }
+
+                }
             }
             Response.Redirect("~/Detalle/Producto/" + dETALLECARRITO.IDPRODUCTO.ToString());
         }

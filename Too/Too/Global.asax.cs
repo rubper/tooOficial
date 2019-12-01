@@ -76,7 +76,50 @@ namespace Too
                 //se llena cookie con la información
                 Response.Cookies["CarritoCompra"].Value = id.ToString();
                 Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
+                Response.Cookies["CantidadCarrito"].Value = "0";
                 CARRITOCOMPRA aux = new CARRITOCOMPRA();
+                aux.IDCARRITO = id;
+                aux.IDTARIFAENVIO = 1;
+                aux.IDUSUARIO = 1;
+                aux.USUARIO = db.USUARIO.Find(1);
+                aux.TARIFAENVIO = db.TARIFAENVIO.Find(1);
+                if (aux.TARIFAENVIO == null)
+                {
+                    if (db.REGION.Count() == 0)
+                    {
+                        REGION region = new REGION();
+                        region.NOMBREREGION = "Región por defecto";
+                        db.REGION.Add(region);
+                        db.SaveChanges();
+                    }
+                    if (db.TARIFAENVIO.Count() == 0)
+                    {
+                        TARIFAENVIO tarifaInicial = new TARIFAENVIO();
+                        tarifaInicial.NOMBRETARIFA = "Sin Tarifa - 0";
+                        tarifaInicial.VALORTARIFA = 0;
+                        tarifaInicial.IDREGION = 1;
+                        db.TARIFAENVIO.Add(tarifaInicial);
+                        db.SaveChanges();
+                    }
+                    aux.TARIFAENVIO = db.TARIFAENVIO.Find(1);
+
+                }
+                if (aux.USUARIO == null)
+                {
+                    USUARIO usuarioInicial = new USUARIO();
+                    usuarioInicial.USERNAME = "visitante";
+                    usuarioInicial.PRIMERNOMBRE = "Visitante";
+                    usuarioInicial.PRIMERAPELLIDO = "Ventas Web";
+                    usuarioInicial.DIRECCION = "Ventas Web";
+                    usuarioInicial.CIUDAD = "Ciudad Visitante";
+                    usuarioInicial.PROVINCIA = "Provincia Visitante";
+                    usuarioInicial.TELEFONO = "telefono";
+                    usuarioInicial.PAIS = "Pais Visitante";
+                    usuarioInicial.EMAIL = "visitante@ventasweb.com";
+                    db.USUARIO.Add(usuarioInicial);
+                    db.SaveChanges();
+                    aux.USUARIO = db.USUARIO.Find(1);
+                }
                 //carro.IDCARRITO = id;
                 db.CARRITOCOMPRA.Add(aux);
                 db.SaveChanges();
@@ -108,6 +151,7 @@ namespace Too
                     //se llena cookie con la información
                     Response.Cookies["CarritoCompra"].Value = id.ToString();
                     Response.Cookies["CarritoCompra"].Expires = DateTime.Now.AddYears(1);
+                    Response.Cookies["CantidadCarrito"].Value = "0";
                     CARRITOCOMPRA aux = new CARRITOCOMPRA();
                     aux.IDTARIFAENVIO = 1;
                     aux.IDUSUARIO = 1;

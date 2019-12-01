@@ -6,12 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace Too.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private contextoBaseVentas db = new contextoBaseVentas();
         public ManageController()
         {
         }
@@ -40,12 +42,12 @@ namespace Too.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two factor provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "The phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Tu contraseña ha sido cambiada."
+                : message == ManageMessageId.SetPasswordSuccess ? "Tu contraseña ha sido configurada."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Tu proveedor de dos pasos ha sido configurado."
+                : message == ManageMessageId.Error ? "Ha ocurrido un error."
+                : message == ManageMessageId.AddPhoneSuccess ? "El teléfono fue añadido."
+                : message == ManageMessageId.RemovePhoneSuccess ? "El teléfono fue removido."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -57,7 +59,20 @@ namespace Too.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            ViewBag.Usuario =  User.Identity.GetUserId().ToString();
             return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index([Bind(Include = "IDUSUARIO,USERNAME,PRIMERNOMBRE,PRIMERAPELLIDO,DIRECCION,DIRECCION2,CIUDAD,PROVINCIA,TELEFONO,CELULAR,PAIS,EMAIL")] USUARIO uSUARIO)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(uSUARIO).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(uSUARIO);
         }
 
         //
@@ -120,7 +135,7 @@ namespace Too.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "Tu código de seguridad es: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -214,7 +229,7 @@ namespace Too.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "Ocurrió un error al verificar el teléfono");
             return View(model);
         }
 

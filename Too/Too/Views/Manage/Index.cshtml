@@ -1,6 +1,6 @@
 ﻿@model Too.Models.IndexViewModel
 @{
-    ViewBag.Title = "Manage your account";
+    ViewBag.Title = "Gestiona tu cuenta";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -8,70 +8,177 @@
 <div class="row">
     <div class="col-md-8">
         <p>
-            @(Model.HasPassword ? Html.ActionLink("Change your password", "ChangePassword") 
-                : Html.ActionLink("Pick a password", "SetPassword"))
+            @(Model.HasPassword ? Html.ActionLink("Cambiar contraseña", "ChangePassword")
+                : Html.ActionLink("Escoge una contraseña", "SetPassword"))
         </p>
         <p>
-            Phone Number: @(Model.PhoneNumber ?? "None") [
+            Número de teléfono: @(Model.PhoneNumber ?? "None") [
             @if (Model.PhoneNumber != null)
             {
-                @Html.ActionLink("Change", "AddPhoneNumber")
+                @Html.ActionLink("Cambiar", "AddPhoneNumber")
                 @: &nbsp;|&nbsp;
-                @Html.ActionLink("Remove", "RemovePhoneNumber")
+                @Html.ActionLink("Quitar", "RemovePhoneNumber")
             }
             else
             {
-                @Html.ActionLink("Add", "AddPhoneNumber")
+                @Html.ActionLink("Añadir", "AddPhoneNumber")
             }
             ]
         </p>
-        <p>
-            External Logins: @Model.Logins.Count
-            @Html.ActionLink("[Manage]", "ManageLogins")
-        </p>
         @if (Model.TwoFactor)
         {
-            using (Html.BeginForm("DisableTFA", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+            using (Html.BeginForm("DisableTFA", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                 @Html.AntiForgeryToken()
-                 <p>
-                     Two factor is currently enabled:
-                     <input type="submit" value="Disable" class="btn btn-default"/>
-                 </p>
+                @Html.AntiForgeryToken()
+                <p>
+                    Inicio de sesión en dos pasos está activado:
+                    <input type="submit" value="Disable" class="btn btn-default" />
+                </p>
             }
         }
         else
         {
-            using (Html.BeginForm("EnableTFA", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+            using (Html.BeginForm("EnableTFA", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 <p>
-                    Two factor is currently disabled:
-                    <input type="submit" value="Enable" class="btn btn-default"/>
+                    Inicio de sesión en dos pasos está desactivado:
+                    <input type="submit" value="Enable" class="btn btn-default" />
                 </p>
             }
         }
         @if (Model.BrowserRemembered)
         {
-            using (Html.BeginForm("ForgetBrowser", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+            using (Html.BeginForm("ForgetBrowser", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 <p>
-                    Browser is curently remembered for two factor:
+                    Se recordará la sesión en dos pasos para este navegador:
                     <input type="submit" value="Forget Browser" class="btn btn-default" />
                 </p>
             }
         }
         else
         {
-            using (Html.BeginForm("RememberBrowser", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+            using (Html.BeginForm("RememberBrowser", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 <p>
-                    Browser is curently not remembered for two factor:
-                    <input type="submit" value="Remember Browser" class="btn btn-default"/>
+                    No se recordará la sesión en dos pasos para este navegador:
+                    <input type="submit" value="Remember Browser" class="btn btn-default" />
                 </p>
             }
         }
     </div>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>USUARIO</h4>
+        <hr />
+        <input type="hidden" name="IDUSUARIO"  />
+
+        <input type="hidden" name="USERNAME" value="@ViewBag.Usuario" />
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Primer nombre:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="PRIMERNOMBRE" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Primer apellido:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="PRIMERAPELLIDO" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Dirección principal:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="DIRECCION" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Dirección alternativa:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="DIRECCION2" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Ciudad:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="CIUDAD" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Provincia o departamento:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="PROVINCIA" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Teléfono:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="TELEFONO" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Celular:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="CELULAR" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>País:</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="PAIS" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Correo electrónico;</p>
+            </div>
+            <div class="col-md-10">
+                <input type="text" name="EMAIL" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    }
 </div>
