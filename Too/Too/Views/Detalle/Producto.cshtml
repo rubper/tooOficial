@@ -1,110 +1,133 @@
 ﻿@model Too.Models.DETALLECARRITO
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle de producto";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-sm-5">
+        <h4>@ViewBag.Title</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Subdepartamento:
+            </dt>
 
-<div>
-    <h4>PRODUCTO</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Subdepartamento:
-        </dt>
+            <dd>
+                @ViewBag.PROD.SUBDEPARTAMENTO.NOMSUBCATEGORIA
+            </dd>
 
-        <dd>
-            @ViewBag.PROD.SUBDEPARTAMENTO.NOMSUBCATEGORIA
-        </dd>
+            <dt>
+                Producto:
+            </dt>
 
-        <dt>
-            Producto:
-        </dt>
+            <dd>
+                @ViewBag.PROD.NOMBREPROD
+            </dd>
 
-        <dd>
-            @ViewBag.PROD.NOMBREPROD
-        </dd>
+            <dt>
+                Descripción
+            </dt>
 
-        <dt>
-            Descripción
-        </dt>
+            <dd>
+                @ViewBag.PROD.DESCPROD
+            </dd>
 
-        <dd>
-            @ViewBag.PROD.DESCPROD
-        </dd>
+            <dt>
+                Precio:
+            </dt>
 
-        <dt>
-            Precio:
-        </dt>
+            <dd>
+                @ViewBag.PROD.PRECIOUNIT
+            </dd>
 
-        <dd>
-            @ViewBag.PROD.PRECIOUNIT
-        </dd>
+            <dt>
+                Imagen:
+            </dt>
 
-        <dt>
-            Imagen:
-        </dt>
+            <dd>
+                <img width="300" height="300" src="@Url.Action("obtenerImagen", "Productos", new { id = ViewBag.PROD.IDPRODUCTO})" alt="">
+            </dd>
 
-        <dd>
-            <img width="300" height="300" src="@Url.Action("obtenerImagen", "Productos", new { id = ViewBag.PROD.IDPRODUCTO})" alt="">
-        </dd>
+        </dl>
+    </div>
 
-        <dt>
-            ¿Disponible?
-        </dt>
+    <p>
+        <a href="@Url.Action("Index", "Home")">Regresar al índice</a>
+    </p>
 
-        <dd>
-            @if (@ViewBag.PROD.DISPONIBILIDAD == true)
-            {
-                <p>En Stock</p>
-            }
-            else
-            {
-                <p>Agotado</p>
-            }
-        </dd>
+    <div class="col-sm-5">
+        @using (Html.BeginForm("AñadirProducto", "DetallesCarritos", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input type="hidden" name="IDPRODUCTO" value="@ViewBag.PROD.IDPRODUCTO" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input type="hidden" name="IDCARRITO" value="@ViewBag.CARR.IDCARRITO" />
+                </div>
+            </div>
 
-    </dl>
+            <div class="form-group">
+                Cantidad:
+                <div class="col-md-4">
+                    <input type="text" name="CANTIDADPROD" onkeyup="myFunction(this.value, @ViewBag.PROD.PRECIOUNIT, @if (ViewBag.PROD.DISPONIBILIDAD == true) { @:1
+                    } else { @:0
+                    })">
+                </div>
+            </div>
+            <div class="form-group">
+                Precio:
+                <div class="col-md-4">
+                    <input type="text" name="PRECIO" id="PRECIO" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="submit" id="ANADIRCARRITO" value="Añadir producto al carrito" class="btn btn-default"  disabled />
+                </div>
+            </div>
+
+            <div>
+                ¿Disponible?
+            </div>
+            <div>
+                @if (@ViewBag.PROD.DISPONIBILIDAD == true)
+                {
+                    <p>En Stock</p>
+                }
+                else
+                {
+                    <p>Agotado</p>
+                }
+            </div>
+        }
+    </div>
 </div>
 
-<p>
-    <a href="@Url.Action("Index", "Home")">Regresar al índice</a>
-</p>
-@using (Html.BeginForm("AñadirProducto", "DetallesCarritos", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <div class="col-md-4">
-            <input type="hidden" name="IDPRODUCTO" value="@ViewBag.PROD.IDPRODUCTO" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-4">
-            <input type="hidden" name="IDCARRITO" value="@ViewBag.CARR.IDCARRITO" />
-        </div>
-    </div>
+    <script>
+        function myFunction(valor, precUnit, disp) {
+            var cantidad = parseFloat(valor) * precUnit;
+            document.getElementById("PRECIO").value = cantidad;
+            if (valor == "" || disp == 0) {
+                document.getElementById("ANADIRCARRITO").disabled = true;
+            } else if (isNaN(valor)|| disp == 0){
+                document.getElementById("ANADIRCARRITO").disabled = true;
+            } else {
+                document.getElementById("ANADIRCARRITO").disabled = false;
+            }
+        }
+        function desactivarboton(valor) {
+            if (valor == "" || disp == 0) {
+                document.getElementById("ANADIRCARRITO").disabled = true;
+            } else if (isNaN(valor) || disp == 0){
+                document.getElementById("ANADIRCARRITO").disabled = true;
+            } else {
+                document.getElementById("ANADIRCARRITO").disabled = false;
+            }
 
-    <div class="form-group">
-        <div class="col-md-4">
-            Cantidad
-            <input type="text" name="CANTIDADPROD" value="" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-4">
-            Precio
-            <input type="text" name="PRECIO" value="" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" name="submit" value="Añadir producto al carrito" class="btn btn-default" />
-        </div>
-    </div>
-}
-<!--
-<input type="hidden" name="txndate" value="2019-01-08" />
-<input type="hidden" name="merefundref" value="25631" />
-<input type="submit" name="submit" value="Submit" />
-    -->
+        }
+    </script>

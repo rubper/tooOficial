@@ -10,18 +10,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewBag.Title - Sistema de Ventas en Línea: Grupo 14</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="icon" href="/img/core-img/favicon.ico">
+    <!-- Core Style CSS -->
 
 </head>
 <body>
 
 
-    <div class="search-wrapper section-padding-100">
+    <div id="barraBusquedas" class="search-wrapper section-padding-100">
         <div class="search-close">
             <i class="fa fa-close" aria-hidden="true"></i>
         </div>
@@ -29,10 +32,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="search-content">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
-                        </form>
+                        <!-- form action="#" method="get" -->
+                        @using (Html.BeginForm("Busqueda", "Articulos", FormMethod.Post))
+                        {
+                            <input type="search" name="search" id="search" placeholder="Ingresa tu busqueda aquí...">
+                            <button type="submit" name="submit"><img src="/img/core-img/search.png" alt=""></button>
+                        }
+                        <!-- /form -->
                     </div>
                 </div>
             </div>
@@ -68,58 +74,66 @@
             <nav class="amado-nav">
                 <ul>
                     <li class="active"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-                    <li><a href="@Url.Action("Carrito", "Detalle",  new { idcarrito = int.Parse(Request.Cookies["CarritoCompra"].Value) })">Carrito de Compras</a></li>
+                    <li><a href="@Url.Action("Carrito", "Detalle", new { idcarrito = int.Parse(Request.Cookies["CarritoCompra"].Value) })">Carrito de Compras</a></li>
+                    <li>@Html.ActionLink("Productos", "Index", "Articulos")</li>
                     <li>@Html.ActionLink("Administración", "Admin", "Home")</li>
                     @Html.Partial("_LoginPartial")
                 </ul>
             </nav>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
-                <a href="@Url.Action("Carrito", "Detalle",  new { idcarrito = int.Parse(Request.Cookies["CarritoCompra"].Value) })" class="cart-nav"><img src="/img/core-img/cart.png" alt=""> Carrito <span>(@ViewBag.CantidadCarrito)</span></a>
-                <a href="#" class="search-nav"><img src="/img/core-img/search.png" alt=""> Buscar</a>
+                <a href="@Url.Action("Carrito", "Detalle", new { idcarrito = int.Parse(Request.Cookies["CarritoCompra"].Value) })" class="cart-nav"><img src="/img/core-img/cart.png" alt=""> Carrito <span>(@ViewBag.CantidadCarrito)</span></a>
+                <div><a href="#" class="search-nav"><img src="/img/core-img/search.png" alt=""> Buscar</a></div>
             </div>
         </header>
-
         <div class="products-catagories-area clearfix">
             <div class="amado-pro-catagory clearfix">
                 @RenderBody()
-                <hr />
             </div>
         </div>
-
     </div>
 
     <!-- area de newsletter-->
-    <section class="newsletter-area section-padding-100-0">
+    <footer>
         <div class="container">
             <div class="row align-items-center">
-                <!-- Newsletter Text -->
-                <div class="col-12 col-lg-6 col-xl-7">
-                    <div class="newsletter-text mb-100">
-                        <h2>Subscribe for a <span>25% Discount</span></h2>
-                        <p>Nulla ac convallis lorem, eget euismod nisl. Donec in libero sit amet mi vulputate consectetur. Donec auctor interdum purus, ac finibus massa bibendum nec.</p>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="single_widget_area">
+                        <!-- Logo -->
+                        <div class="footer-logo mr-50">
+                            <a href="index.html"><img src="img/core-img/logo2.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite Text -->
+                        <p class="copywrite">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved </br> This template was made by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
                     </div>
                 </div>
-                <!-- Newsletter Form -->
-                <div class="col-12 col-lg-6 col-xl-5">
-                    <div class="newsletter-form mb-100">
-                        <form action="#" method="post">
-                            <input type="email" name="email" class="nl-email" placeholder="Your E-mail">
-                            <input type="submit" value="Subscribe">
-                        </form>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-8">
+                    <div class="single_widget_area">
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <footer>
-        <p>@DateTime.Now.Year - TOO</p>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="~/Scripts/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Scripts/plugins.js"></script>
+    <!-- Active js -->
+    <script src="~/Scripts/active.js"></script>
 
 </body>
 </html>

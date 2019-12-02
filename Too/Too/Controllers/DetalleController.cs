@@ -111,6 +111,11 @@ namespace Too.Controllers
                 ViewBag.lsta = lsprod;
                 ViewBag.Tarifas = lsTarifa;
                 ViewBag.tarif = lsTarifa.First().VALORTARIFA;
+                ViewBag.habilitar = true;
+                if (lsDetalle.Count == 0)
+                {
+                    ViewBag.habilitar = false;
+                }
                 return View(carro.DETALLECARRITO);
             }
             catch

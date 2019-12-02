@@ -42,6 +42,7 @@ namespace Too.Controllers
                     {
                         //si es así, entonces prodAux será el producto actual de la lista productos (contiene todos)
                         prodAux = producto;
+                        //se verifica si la lista de salida no está vacía
                         if (listaProductosSalida.Count != 0)
                         {
                             //validar: si la lista ya contiene un producto con dicha categoría

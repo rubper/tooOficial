@@ -53,15 +53,16 @@
     <div class="form-group">
         <div class="col-md-10">
             Tarifa Envio
-            @if (ViewBag.Tarifas != null) {
-            @Html.DropDownList("IDTARIFAENVIO", new SelectList(ViewBag.Tarifas, "IDTARIFA", "NOMBRETARIFA"), new { @class = "form-control" })
+            @if (ViewBag.Tarifas != null)
+            {
+                @Html.DropDownList("IDTARIFAENVIO", new SelectList(ViewBag.Tarifas, "IDTARIFA", "NOMBRETARIFA"), new { @class = "form-control", id="controlTarifa" })
             }
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-10">
             Envío
-            <input type="checkbox" name="ENVIO" /> Deseo envío
+            <input type="checkbox" id="controlEnvio" name="ENVIO" checked="checked" onclick="verificarEnvio(this.checked)" /> Deseo envío
         </div>
     </div>
     <div class="form-group">
@@ -84,7 +85,19 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" name="submit" value="Comprar" class="btn btn-default" />
+            <input type="submit" name="submit" value="Comprar" class="btn btn-default" @if (ViewBag.habilitar == false) { @: disabled
+                   } else { @:
+                   } />
         </div>
     </div>
 }
+<script>
+    function verificarEnvio(valor) {
+            if (valor == true) {
+                document.getElementById("controlTarifa").disabled = false;
+            } else if (valor == false) {
+                document.getElementById("controlTarifa").value = 1;
+                document.getElementById("controlTarifa").disabled = true;
+            }
+        }
+</script>

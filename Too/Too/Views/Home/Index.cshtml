@@ -2,9 +2,10 @@
 @{
     ViewBag.Title = "Inicio";
 }
-@if (Model != null)
+@if (Model != null) 
 {
-        foreach (var item in Model)
+    <div style="display: flex;">
+        @foreach (var item in Model)
         {
             <div class="single-products-catagory clearfix">
                 <a href="@Url.Action("Producto", "Detalle", new { id = item.IDPRODUCTO })">
@@ -20,4 +21,5 @@
                 </a>
             </div>
         }
+    </div>
 }

@@ -8,7 +8,7 @@ namespace Too
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.min.js",
+                        "~/Scripts/jquery-2.2.4.min.js",
                         "~/Scripts/active.js",
                         "~/Scripts/classy-nav.min.js",
                         "~/Scripts/map-active.js",
@@ -25,10 +25,12 @@ namespace Too
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/respond.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/boostrap.min.css",
+                      "~/Content/style.scss",
                       "~/Content/style.css",
                       "~/Content/animate.css",
                       "~/Content/classy-nav.min.css",
@@ -37,7 +39,6 @@ namespace Too
                       "~/Content/jquery-ui.min.css",
                       "~/Content/nice-select.css",
                       "~/Content/owl.carousel.css",
-                      "~/Content/style.scss",
                       "~/Content/magnific-popup.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/_mixin.scss",
