@@ -8,7 +8,7 @@ namespace Too
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-2.2.4.min.js",
+                        "~/Scripts/jquery-{version}.min.js",
                         "~/Scripts/active.js",
                         "~/Scripts/classy-nav.min.js",
                         "~/Scripts/map-active.js",
