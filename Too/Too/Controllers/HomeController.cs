@@ -117,7 +117,7 @@ namespace Too.Controllers
 
             return View();
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult Admin()
         {
             ViewBag.Message = "Gestione los elementos de su página web de ventas";

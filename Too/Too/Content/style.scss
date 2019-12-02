@@ -1081,6 +1081,7 @@ img {
     z-index: 1;
     width: 33.33333%;
     top: 0;
+	flex: 1 0 33.33333%;
     @media #{$breakpoint-lg} {
         width: 50%;
     }
